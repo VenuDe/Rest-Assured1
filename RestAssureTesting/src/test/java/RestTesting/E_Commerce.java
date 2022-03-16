@@ -2,6 +2,7 @@ package RestTesting;
 
 
 import org.testng.annotations.Test;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -16,7 +17,7 @@ public class E_Commerce {
 
 	
 	
-	@Test (priority = 0, enabled = false)
+	/*@Test (priority = 0, enabled = false)
 	public String signup()
 	{
 		RestAssured.baseURI =baseurl;
@@ -47,15 +48,50 @@ public class E_Commerce {
 	return requestbody;
 	
 		
-	}
+	}*/
 	
+	@Test (priority = 0, enabled = false)
+	public void signup()
+	{
+		RestAssured.baseURI =baseurl;
+		
+	String 	requestbody = "{\n"
+			+ "	\"email\": \"Venud14@gmail.com\",\n"
+			+ "	\"password\": \"venu007\"\n"
+			+ "}";
+	
+	
+	Response resposne = given()
+			.header("Content-Type","application/json")
+			.body(requestbody)
+			
+			.when()
+			.post("/user/signup")
+			
+			.then()
+			.assertThat().statusCode(201).contentType(ContentType.JSON)
+			.extract().response();	
+	
+	String jsonresponse = resposne.asString();
+	//i want to convert the response in to json format
+	//why do i use jsonpath to convert the string in to a json format
+	JsonPath js = new JsonPath(jsonresponse);
+	message = js.get("message");
+	System.out.println(message);
+	
+	
+		
+	}
 	
 	@Test(priority = 1)
 	public void Login()
 	{
 		RestAssured.baseURI =baseurl;
 		
-			String 	requestbody = signup();
+			String 	requestbody = "{\n"
+					+ "	\"email\": \"Venud14@gmail.com\",\n"
+					+ "	\"password\": \"venu007\"\n"
+					+ "}";
 					
 	
 	Response resposne = given()
